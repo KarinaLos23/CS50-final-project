@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Your wishlist
+{% endblock %}
+
+{% block main %}
+<link href="/static/movies-styles.css" rel="stylesheet">
+<script src="/static/movies.js"></script>
+<script>
+    (function(d,s,id){var js,stags=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return;}js=d.createElement(s);js.id=id;js.src="https://ia.media-imdb.com/images/G/01/imdb/plugins/rating/js/rating.js";stags.parentNode.insertBefore(js,stags);})(document,"script","imdb-rating-api");
+</script>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Movies</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="movie_list">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="top">
+    <a href="/watchlist/{{ person_id }}" class="inactive">Watchlist</a>
+    <a href="/wishlist/{{ person_id }}" class="active">Wishlist</a>
+    <a href="/favourites/{{ person_id }}" class="inactive">Favourites</a>
+</div>
+<div>
+    <form onsubmit="return displayMoviesByTitle(title)">
+        <div class="form-group row justify-content-center">
+            <div class="col-auto">
+                <input class="form-control" name="title" placeholder="Movie title" type="text">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-warning row" data-toggle="modal" data-target="#exampleModal" type="submit">Find
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="column fancy">
+    {% for w in wishlist %}
+    <div class="movie">
+        <img src="{{ poster_paths[w.id] }}" width="200px">
+        <h5>{{ w.title }}, {{ w.year }}</h5>
+        <button class="btn btn-warning" onclick="transferToWatchlist({{ w.id }}); location.reload();">Watched!</button>
+        <button class="btn btn-warning" onclick="removeFromWishlist({{ w.id }}); location.reload();">Remove</button>
+    </div>
+    <p>Also interested: {{ ', '.join(fw[w.id]) }}</p>
+    <span class="imdbRatingPlugin" data-user="ur121089874" data-title="{{ 'tt%07d' % w.id }}" data-style="p1">
+        <a href="https://www.imdb.com/title/tt{{ '%07d' % w.id }}/?ref_=plg_rt_1">
+            <img src="https://ia.media-imdb.com/images/G/01/imdb/plugins/rating/images/imdb_46x22.png"
+                 alt="{{ w.title }}"/>
+        </a>
+    </span>
+    <hr class="style8">
+    {% endfor %}
+</div>
+{% endblock %}

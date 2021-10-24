@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ friend.name }}'s favourites
+{% endblock %}
+
+{% block main %}
+<link href="/static/movies-styles.css" rel="stylesheet">
+<script src="/static/movies.js"></script>
+<script>
+    (function(d,s,id){var js,stags=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return;}js=d.createElement(s);js.id=id;js.src="https://ia.media-imdb.com/images/G/01/imdb/plugins/rating/js/rating.js";stags.parentNode.insertBefore(js,stags);})(document,"script","imdb-rating-api");
+</script>
+<h5>{{ friend.name }}'s favourites</h5>
+<div class="top">
+    <a href="/friend_watchlist/{{ friend.id }}" class="inactive">Watchlist</a>
+    <a href="/friend_wishlist/{{ friend.id }}" class="inactive">Wishlist</a>
+    <a href="/friend_favourites/{{ friend.id }}" class="active">Favourites</a>
+</div>
+<div class="column fancy">
+    {% for f in favourites %}
+    <div class="movie">
+        <img src="{{ poster_paths[f.id] }}" width="200px">
+        <h5>{{f.title }} {{ f.year }}</h5>
+        <button class="btn btn-warning" onclick="addToWatchlist({{ f.id }}); disabled = true" {% if f.id in watch %}
+                disabled="true" {% endif %}>Add to watchlist
+        </button>
+        <button class="btn btn-warning" onclick="addToWishlist({{ f.id }}); disabled = true" {% if f.id in watch or f.id
+                in wish %} disabled="true" {% endif %}>Add to wishlist
+        </button>
+    </div>
+    <span class="imdbRatingPlugin" data-user="ur121089874" data-title="{{ 'tt%07d' % f.id }}" data-style="p1">
+        <a href="https://www.imdb.com/title/tt{{ '%07d' % f.id }}/?ref_=plg_rt_1">
+            <img src="https://ia.media-imdb.com/images/G/01/imdb/plugins/rating/images/imdb_46x22.png"
+                 alt="{{ f.title }}"/>
+        </a>
+    </span>
+    <hr class="style8">
+    {% endfor %}
+</div>
+{% endblock %}

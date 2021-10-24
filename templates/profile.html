@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ person.name }} {{person.surname }}
+{% endblock %}
+
+{% block main %}
+<link href="/static/profile-styles.css" rel="stylesheet">
+<script src="/static/profile.js"></script>
+<div class="column container">
+    <div class="inner fancy">
+        {% if img_data is none %}
+        <img src="/static/pics/default.png" id="profile_pic">
+        {% else %}
+        <img src='{{ img_data }}' id="profile_pic">
+        {% endif %}
+        <button class="btn btn-warning" onclick="uploadPhoto()">Upload photo</button>
+        <h4>{{ person.name }} {{ person.surname }}</h4>
+        <h5>Stats:</h5>
+        <ul class="left">
+            <li>Movies watched: {{ stats.movies }}</li>
+            <li>Reviews written: {{ stats.posts }}</li>
+            <li>'Useful' badges: {{ stats.useful }}</li>
+            <li>Friends: {{ stats.friends }}</li>
+        </ul>
+    </div>
+</div>
+<div class="column big fancy">
+    {% for p in posts %}
+    <div class="post">
+        <h5>{{ p.title }}, {{ p.year }}</h5>
+        {% for i in range(p.rating) %}
+        <span class="fa fa-star checked"></span>
+        {% endfor %}
+        {% for i in range(5 - p.rating) %}
+        <span class="fa fa-star"></span>
+        {% endfor %}
+        <p>
+            {{ p.text }}
+        </p>
+        <p>Useful: {{ p.useful }}</p>
+    </div>
+    <hr class="style8">
+    {% endfor %}
+</div>
+{% endblock %}

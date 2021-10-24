@@ -1,0 +1,106 @@
+body {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    background-image: url("/static/pics/stars2.jpg");
+}
+
+.column {
+  float: left;
+  width: 25%;
+  text-align: center;
+  border-style: hidden;
+  border-radius: 5px;
+}
+
+.middle {
+    width: 50%;
+}
+
+.inner {
+  border-style: hidden;
+  border-radius: 5px;
+}
+
+.container {
+    border-style: none;
+}
+
+.below {
+    margin-top: 4px;
+}
+
+.checked {
+    color: gold;
+}
+
+.left {
+    text-align: left;
+}
+
+.form-group {
+    max-width: 80%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+a {
+    color: black;
+}
+
+.fancy {
+  position: relative;
+  background-color: #FFC;
+  padding: 2rem;
+  text-align: center;
+  max-width: 100%;
+}
+
+.fancy::before {
+  content: "";
+
+  position : absolute;
+  z-index  : -1;
+  bottom   : 15px;
+  right    : 5px;
+  width    : 50%;
+  top      : 80%;
+  max-width: 200px;
+
+  box-shadow: 0px 13px 10px black;
+  transform: rotate(4deg);
+}
+
+hr.style8 {
+	border-top: 1px solid #8c8b8b;
+	border-bottom: 1px solid #fff;
+}
+hr.style8:after {
+	content: '';
+	display: block;
+	margin-top: 2px;
+	border-top: 1px solid #8c8b8b;
+	border-bottom: 1px solid #fff;
+}
+
+.modal-body {
+    text-align: center;
+    justify-content: center;
+}
+
+.person_pic {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-style: solid;
+    border-radius: 50%;
+}
+
+#people_list {
+    display: block;
+}
+
+.poster {
+    width: 200px;
+}
+
+
+

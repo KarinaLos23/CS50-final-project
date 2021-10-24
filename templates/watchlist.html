@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Your watchlist
+{% endblock %}
+
+{% block main %}
+<link href="/static/movies-styles.css" rel="stylesheet">
+<script src="/static/movies.js"></script>
+<script>
+    (function(d,s,id){var js,stags=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return;}js=d.createElement(s);js.id=id;js.src="https://ia.media-imdb.com/images/G/01/imdb/plugins/rating/js/rating.js";stags.parentNode.insertBefore(js,stags);})(document,"script","imdb-rating-api");
+</script>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Movies</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="movie_list">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">Write your review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form onsubmit="return postReview(review, rating)">
+                <div class="modal-body">
+                    <div class="form-group row justify-content-center">
+                        <textarea rows="5" cols="35" class="form-control" name="review" placeholder="Your review"
+                                  type="text"></textarea>
+                    </div>
+                    <div class="form-group row justify-content-center">
+                        <input class="form-control" name="rating" placeholder="Your rating" type="number" min="1"
+                               max="5" step="1" value="1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-warning" type="submit">Post</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="top">
+    <a href="/watchlist/{{ person_id }}" class="active">Watchlist</a>
+    <a href="/wishlist/{{ person_id }}" class="inactive">Wishlist</a>
+    <a href="/favourites/{{ person_id }}" class="inactive">Favourites</a>
+</div>
+<div>
+    <form onsubmit="return displayMoviesByTitle(title)">
+        <div class="form-group row justify-content-center">
+            <div class="col-auto">
+                <input class="form-control" name="title" placeholder="Movie title" type="text">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-warning row" data-toggle="modal" data-target="#exampleModal" type="submit">Find
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="column fancy">
+    {% for w in watchlist %}
+    <div class="movie">
+        <img src="{{ poster_paths[w.id] }}" width="200px">
+        <h5>{{ w.title }}, {{ w.year}}</h5>
+        <button class="btn btn-warning" data-toggle="modal" data-target="#reviewModal"
+                onclick="movieIdForReview = {{ w.id }};" {% if w.id in reviewed %} disabled="true" {% endif %}>
+            Write a review
+        </button>
+        <button class="btn btn-warning" onclick="removeFromWatchlist({{ w.id }}); location.reload();">Remove
+        </button>
+        <br>
+        {% if w.id in favourites_ids %}
+        <button id="red-heart{{ w.id }}" class="btn fa fa-heart red-heart"
+                onclick="redHeartClick(this, {{ w.id }})"></button>
+        <button id="black-heart{{ w.id }}" class="btn fa fa-heart black-heart d-none"
+                onclick="blackHeartClick(this, {{ w.id }})"></button>
+        {% else %}
+        <button id="red-heart{{ w.id }}" class="btn fa fa-heart red-heart d-none"
+                onclick="redHeartClick(this, {{ w.id }})"></button>
+        <button id="black-heart{{ w.id }}" class="btn fa fa-heart black-heart"
+                onclick="blackHeartClick(this, {{ w.id }})"></button>
+        {% endif %}
+        <span class="imdbRatingPlugin" data-user="ur121089874" data-title="{{ 'tt%07d' % w.id }}" data-style="p1">
+            <a href="https://www.imdb.com/title/tt{{ '%07d' % w.id }}/?ref_=plg_rt_1">
+                <img src="https://ia.media-imdb.com/images/G/01/imdb/plugins/rating/images/imdb_46x22.png"
+                     alt="{{ w.title }}"/>
+            </a>
+        </span>
+    </div>
+    <hr class="style8">
+    {% endfor %}
+</div>
+{% endblock %}

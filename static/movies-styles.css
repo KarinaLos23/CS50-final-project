@@ -1,0 +1,104 @@
+body {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    background-image: url("/static/pics/stars2.jpg");
+}
+
+main .form-control {
+    width: auto;
+}
+
+btn {
+    width: auto;
+}
+
+.column {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  border-style: hidden;
+  border-radius: 5px;
+}
+
+h5 {
+    text-align: center;
+}
+
+.checked {
+    color: gold;
+}
+
+.top {
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+.active {
+    color: black;
+    font-weight: bold;
+}
+
+.inactive {
+    color: gray;
+}
+
+
+.fancy {
+  position: relative;
+  background-color: #FFC;
+  padding: 0.5rem;
+  text-align: center;
+  max-width: 60%;
+}
+
+.fancy::before {
+  content: "";
+
+  position : absolute;
+  z-index  : -1;
+  bottom   : 15px;
+  right    : 5px;
+  width    : 50%;
+  top      : 80%;
+  max-width: 200px;
+
+  box-shadow: 0px 13px 10px black;
+  transform: rotate(4deg);
+}
+
+hr.style8 {
+	border-top: 1px solid #8c8b8b;
+	border-bottom: 1px solid #fff;
+	display: block;
+}
+hr.style8:after {
+	content: '';
+	display: block;
+	margin-top: 2px;
+	border-top: 1px solid #8c8b8b;
+	border-bottom: 1px solid #fff;
+}
+
+.modal-body {
+    text-align: center;
+    justify-content: center;
+}
+
+.black-heart {
+    color: black;
+}
+
+.red-heart {
+    color: red;
+}
+
+.black-heart:hover {
+    color: red;
+}
+
+.red-heart:hover {
+    color: black;
+}
+
+.poster {
+    width: 200px;
+}

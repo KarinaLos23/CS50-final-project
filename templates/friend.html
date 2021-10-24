@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ friend.name }} {{ friend.surname }}
+{% endblock %}
+
+{% block main %}
+<link href="/static/profile-styles.css" rel="stylesheet">
+<script src="/static/movies.js"></script>
+<div class="column container">
+    <div class="inner fancy">
+        {% if img_data is none %}
+        <img src="/static/pics/default.png">
+        {% else %}
+        <img src='{{ img_data }}'>
+        {% endif %}
+        <h5>{{ friend.name }} {{ friend.surname }}</h5>
+        <h5>Stats:</h5>
+        <ul class="left">
+            <li>Movies watched: {{ stats.movies }}</li>
+            <li>Reviews written: {{ stats.posts }}</li>
+            <li>'Useful' badges: {{ stats.useful }}</li>
+            <li>Friends: {{ stats.friends }}</li>
+        </ul>
+    </div>
+    <div class="inner fancy below">
+        <h4>{{ friend.name }}'s watchlist</h4>
+        <ul class="left">
+            {% for w in watchlist %}
+            <li>{{ w.title }}, {{ w.year }}</li>
+            {% endfor %}
+        </ul>
+        <form action="/friend_watchlist/{{ friend.id }}" method="get">
+            <button class="btn btn-warning" type="submit">See more</button>
+        </form>
+    </div>
+    <div class="inner fancy below">
+        <h4>{{ friend.name }}'s wishlist</h4>
+        <ul class="left">
+            {% for w in wishlist %}
+            <li>{{ w.title }}, {{ w.year }}</li>
+            {% endfor %}
+        </ul>
+        <form action="/friend_wishlist/{{ friend.id }}" method="get">
+            <button class="btn btn-warning" type="submit">See more</button>
+        </form>
+    </div>
+</div>
+<div class="column big fancy">
+    {% for p in posts %}
+    <div class="post">
+        <h5>{{ p.title }}, {{ p.year }}</h5>
+        {% for i in range(p.rating) %}
+        <span class="fa fa-star checked"></span>
+        {% endfor %}
+        {% for i in range(5 - p.rating) %}
+        <span class="fa fa-star"></span>
+        {% endfor %}
+        <p>
+            {{ p.text }}
+        </p>
+        <button class="btn btn-warning" onclick="markAsUseful({{ p.id }}); location.reload();" {% if p.id in useful %}
+                disabled="true" {% endif %}>Useful ({{ p.useful }})
+        </button>
+    </div>
+    <hr class="style8">
+    {% endfor %}
+</div>
+{% endblock %}
